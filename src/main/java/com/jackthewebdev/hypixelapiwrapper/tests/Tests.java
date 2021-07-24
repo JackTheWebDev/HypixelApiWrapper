@@ -1,8 +1,6 @@
 package com.jackthewebdev.hypixelapiwrapper.tests;
 
-/**
- * Crappy tests that get the job done
- */
+// Crappy tests that get the job done
 
 
 import com.cedarsoftware.util.io.JsonObject;
