@@ -11,3 +11,6 @@ HypixelApiWrapper wrapper = new HypixelApiWrapper(apiKey);
 String data = wrapper.player(uuid);
 System.out.println(data); 
 ```
+
+### TODO
+* Return java objects instead of json data, because that's not useful 

@@ -1,4 +1,9 @@
-package tests;
+package com.jackthewebdev.hypixelapiwrapper.tests;
+
+/**
+ * Crappy tests that get the job done
+ */
+
 
 import com.cedarsoftware.util.io.JsonObject;
 import com.cedarsoftware.util.io.JsonReader;
@@ -38,6 +43,21 @@ public class Tests {
         }
         return true;
     }
+    private static boolean friendTest(String key,String uuid) throws IOException {
+
+        HypixelApiWrapper wrapper = new HypixelApiWrapper(key);
+
+        String data = wrapper.friends(uuid);
+
+        JsonObject obj = (JsonObject) JsonReader.jsonToJava(data);
+
+        boolean success = (boolean) obj.get("success");
+        if(!success){
+            return false;
+        }
+        return true;
+    }
+
     // Some crappy tests that get the job done
     public static void main(String[] args) throws IOException {
         System.out.println("Starting tests");
@@ -59,6 +79,15 @@ public class Tests {
 
         System.out.println("Running Player...");
         if(playerTest(apiKey,uuid)){
+            System.out.println("[✓] Player Passed");
+            passed++;
+        }else{
+            System.out.println("[X] Player Failed");
+            failed++;
+        }
+
+        System.out.println("Running Friends...");
+        if(friendTest(apiKey,uuid)){
             System.out.println("[✓] Player Passed");
             passed++;
         }else{

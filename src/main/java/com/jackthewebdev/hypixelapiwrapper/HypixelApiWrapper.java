@@ -19,9 +19,7 @@ public class HypixelApiWrapper {
 
         Requests request = new Requests();
 
-        String json = request.jsonRequest(this.Endpoint+"/key?key="+key);
-
-        return json;
+        return request.jsonRequest(this.Endpoint+"/key?key="+key);
 
     }
     public String player(String uuid) throws IOException {
@@ -29,9 +27,16 @@ public class HypixelApiWrapper {
 
         Requests request = new Requests();
 
-        String json = request.jsonRequest(this.Endpoint+"/player?uuid="+uuid+"&key="+key);
+        return request.jsonRequest(this.Endpoint+"/player?uuid="+uuid+"&key="+key);
 
-        return json;
+    }
+
+    public String friends(String uuid) throws IOException {
+        String key = this.Token;
+
+        Requests request = new Requests();
+
+        return request.jsonRequest(this.Endpoint+"/player?uuid="+uuid+"&key="+key);
 
     }
 
