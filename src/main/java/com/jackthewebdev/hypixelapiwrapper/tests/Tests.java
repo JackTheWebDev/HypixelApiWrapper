@@ -3,8 +3,9 @@ package com.jackthewebdev.hypixelapiwrapper.tests;
 // Crappy tests that get the job done
 
 
-import com.cedarsoftware.util.io.JsonObject;
-import com.cedarsoftware.util.io.JsonReader;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.jackthewebdev.hypixelapiwrapper.HypixelApiWrapper;
 
 import java.io.IOException;
@@ -17,15 +18,13 @@ public class Tests {
 
         String data = wrapper.apiKey();
 
-        JsonObject obj = (JsonObject) JsonReader.jsonToJava(data);
+        Gson gson = new Gson();
+        JsonObject obj = gson.fromJson(data,JsonObject.class);
 
-        boolean success = (boolean) obj.get("success");
+        JsonElement success = obj.get("success");
 
 
-        if(!success){
-            return false;
-        }
-        return true;
+        return success.getAsBoolean();
     }
     private static boolean playerTest(String key,String uuid) throws IOException {
 
@@ -33,13 +32,13 @@ public class Tests {
 
         String data = wrapper.player(uuid);
 
-        JsonObject obj = (JsonObject) JsonReader.jsonToJava(data);
+        Gson gson = new Gson();
+        JsonObject obj = gson.fromJson(data,JsonObject.class);
 
-        boolean success = (boolean) obj.get("success");
-        if(!success){
-            return false;
-        }
-        return true;
+        JsonElement success = obj.get("success");
+
+
+        return success.getAsBoolean();
     }
     private static boolean friendTest(String key,String uuid) throws IOException {
 
@@ -47,13 +46,15 @@ public class Tests {
 
         String data = wrapper.friends(uuid);
 
-        JsonObject obj = (JsonObject) JsonReader.jsonToJava(data);
+        Gson gson = new Gson();
+        JsonObject obj = gson.fromJson(data,JsonObject.class);
 
-        boolean success = (boolean) obj.get("success");
-        if(!success){
-            return false;
-        }
-        return true;
+        JsonElement success = obj.get("success");
+
+
+
+
+        return success.getAsBoolean();
     }
 
     // Some crappy tests that get the job done
