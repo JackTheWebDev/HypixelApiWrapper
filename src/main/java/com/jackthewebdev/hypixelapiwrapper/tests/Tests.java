@@ -13,6 +13,19 @@ import java.io.IOException;
 public class Tests {
 
 
+    private static boolean uuidTest(String key, String username) throws IOException {
+
+        HypixelApiWrapper wrapper = new HypixelApiWrapper(key);
+
+        String data = wrapper.getuuid(username);
+
+        Gson gson = new Gson();
+        JsonObject obj = gson.fromJson(data,JsonObject.class);
+
+
+        return obj.has("name");
+    }
+
     private static boolean apiKeyTest(String key) throws IOException {
         HypixelApiWrapper wrapper = new HypixelApiWrapper(key);
 
@@ -57,6 +70,19 @@ public class Tests {
         return success.getAsBoolean();
     }
 
+    private static boolean statusTest(String key,String uuid) throws IOException {
+        HypixelApiWrapper wrapper = new HypixelApiWrapper(key);
+
+        String data = wrapper.status(uuid);
+
+        Gson gson = new Gson();
+        JsonObject obj = gson.fromJson(data,JsonObject.class);
+
+        JsonElement success = obj.get("success");
+
+        return success.getAsBoolean();
+    }
+
     // Some crappy tests that get the job done
     public static void main(String[] args) throws IOException {
         System.out.println("Starting tests");
@@ -66,6 +92,17 @@ public class Tests {
 
         String apiKey = "ff1e7b5b-a03c-4e90-9cae-e4d99d914823";
         String uuid = "1a6ce94a-9c71-4b4e-907a-d61972f8570b";
+        String username = "Technoblade";
+
+        System.out.println("Running UUID Test...");
+        if(uuidTest(apiKey,username)){
+            System.out.println("[✓] Player Passed");
+            passed++;
+        }else{
+            System.out.println("[X] Player Failed");
+            failed++;
+        }
+
 
         System.out.println("Running ApiKey...");
         if(apiKeyTest(apiKey)){
@@ -93,6 +130,16 @@ public class Tests {
             System.out.println("[X] Player Failed");
             failed++;
         }
+
+        System.out.println("Running Status...");
+        if(statusTest(apiKey,uuid)){
+            System.out.println("[✓] Player Passed");
+            passed++;
+        }else{
+            System.out.println("[X] Player Failed");
+            failed++;
+        }
+
 
 
         System.out.println("Tests Finished: ");

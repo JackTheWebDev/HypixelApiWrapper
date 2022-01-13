@@ -22,6 +22,28 @@ public class HypixelApiWrapper {
         return request.jsonRequest(this.Endpoint+"/key?key="+key);
 
     }
+
+    /*
+        Other various functions
+     */
+    public String getuuid(String username) throws IOException {
+
+        Requests request = new Requests();
+
+        return request.jsonRequest("https://api.mojang.com/users/profiles/minecraft/"+username);
+
+    }
+
+
+    /*
+                        Hypixel API Endpoints
+     */
+    /*
+        @param uuid
+
+        @return String The json response from /player endpoint
+
+     */
     public String player(String uuid) throws IOException {
         String key = this.Token;
 
@@ -31,12 +53,32 @@ public class HypixelApiWrapper {
 
     }
 
+    /*
+        @param uuid
+
+        @return String The json response from /friends endpoint
+     */
     public String friends(String uuid) throws IOException {
         String key = this.Token;
 
         Requests request = new Requests();
 
         return request.jsonRequest(this.Endpoint+"/player?uuid="+uuid+"&key="+key);
+
+    }
+
+    /*
+        @param uuid
+
+        @return String The json response from the /status endpoint
+     */
+
+    public String status(String uuid) throws IOException {
+        String key = this.Token;
+
+        Requests request = new Requests();
+
+        return request.jsonRequest(this.Endpoint+"/status?uuid="+uuid+"&key="+key);
 
     }
 
