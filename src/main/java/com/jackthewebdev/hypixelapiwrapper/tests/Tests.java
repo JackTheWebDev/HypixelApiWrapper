@@ -90,7 +90,8 @@ public class Tests {
         int failed = 0;
         int passed = 0;
 
-        String apiKey = "ff1e7b5b-a03c-4e90-9cae-e4d99d914823";
+        String apiKey = args[0];
+
         String uuid = "1a6ce94a-9c71-4b4e-907a-d61972f8570b";
         String username = "Technoblade";
 
