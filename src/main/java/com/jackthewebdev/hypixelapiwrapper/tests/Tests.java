@@ -3,88 +3,17 @@ package com.jackthewebdev.hypixelapiwrapper.tests;
 // Crappy tests that get the job done
 
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.jackthewebdev.hypixelapiwrapper.HypixelApiWrapper;
+import com.jackthewebdev.hypixelapiwrapper.utils.Result;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 public class Tests {
 
 
-    private static boolean uuidTest(String key, String username) throws IOException {
-
-        HypixelApiWrapper wrapper = new HypixelApiWrapper(key);
-
-        String data = wrapper.getuuid(username);
-
-        Gson gson = new Gson();
-        JsonObject obj = gson.fromJson(data,JsonObject.class);
-
-
-        return obj.has("name");
-    }
-
-    private static boolean apiKeyTest(String key) throws IOException {
-        HypixelApiWrapper wrapper = new HypixelApiWrapper(key);
-
-        String data = wrapper.apiKey();
-
-        Gson gson = new Gson();
-        JsonObject obj = gson.fromJson(data,JsonObject.class);
-
-        JsonElement success = obj.get("success");
-
-
-        return success.getAsBoolean();
-    }
-    private static boolean playerTest(String key,String uuid) throws IOException {
-
-        HypixelApiWrapper wrapper = new HypixelApiWrapper(key);
-
-        String data = wrapper.player(uuid);
-
-        Gson gson = new Gson();
-        JsonObject obj = gson.fromJson(data,JsonObject.class);
-
-        JsonElement success = obj.get("success");
-
-
-        return success.getAsBoolean();
-    }
-    private static boolean friendTest(String key,String uuid) throws IOException {
-
-        HypixelApiWrapper wrapper = new HypixelApiWrapper(key);
-
-        String data = wrapper.friends(uuid);
-
-        Gson gson = new Gson();
-        JsonObject obj = gson.fromJson(data,JsonObject.class);
-
-        JsonElement success = obj.get("success");
-
-
-
-
-        return success.getAsBoolean();
-    }
-
-    private static boolean statusTest(String key,String uuid) throws IOException {
-        HypixelApiWrapper wrapper = new HypixelApiWrapper(key);
-
-        String data = wrapper.status(uuid);
-
-        Gson gson = new Gson();
-        JsonObject obj = gson.fromJson(data,JsonObject.class);
-
-        JsonElement success = obj.get("success");
-
-        return success.getAsBoolean();
-    }
-
-    // Some crappy tests that get the job done
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, NoSuchMethodException {
         System.out.println("Starting tests");
 
         int failed = 0;
@@ -92,53 +21,35 @@ public class Tests {
 
         String apiKey = args[0];
 
-        String uuid = "1a6ce94a-9c71-4b4e-907a-d61972f8570b";
+        String uuid = "b876ec32-e396-476b-a115-8438d83c67d4";
         String username = "Technoblade";
 
-        System.out.println("Running UUID Test...");
-        if(uuidTest(apiKey,username)){
-            System.out.println("[✓] Player Passed");
-            passed++;
-        }else{
-            System.out.println("[X] Player Failed");
-            failed++;
-        }
+
+        HypixelApiWrapper hypixel = new HypixelApiWrapper(apiKey);
 
 
-        System.out.println("Running ApiKey...");
-        if(apiKeyTest(apiKey)){
-            System.out.println("[✓] ApiKey Passed");
-            passed++;
-        }else{
-            System.out.println("[X] ApiKey Failed");
-            failed++;
-        }
+        ArrayList<Method> playerTests = new ArrayList<>();
 
-        System.out.println("Running Player...");
-        if(playerTest(apiKey,uuid)){
-            System.out.println("[✓] Player Passed");
-            passed++;
-        }else{
-            System.out.println("[X] Player Failed");
-            failed++;
-        }
 
-        System.out.println("Running Friends...");
-        if(friendTest(apiKey,uuid)){
-            System.out.println("[✓] Player Passed");
-            passed++;
-        }else{
-            System.out.println("[X] Player Failed");
-            failed++;
-        }
+        playerTests.add(HypixelApiWrapper.class.getMethod("player", String.class));
+        playerTests.add(HypixelApiWrapper.class.getMethod("friends", String.class));
+        playerTests.add(HypixelApiWrapper.class.getMethod("status", String.class));
 
-        System.out.println("Running Status...");
-        if(statusTest(apiKey,uuid)){
-            System.out.println("[✓] Player Passed");
-            passed++;
-        }else{
-            System.out.println("[X] Player Failed");
-            failed++;
+        for (Method method : playerTests) {
+            try {
+                Result result =(Result) method.invoke(hypixel,uuid);
+                if(result.isSuccess()){
+                    System.out.println("[✓] "+method.getName()+" Passed");
+                    passed ++;
+                    continue;
+                }
+                failed ++;
+                System.out.println("[X] "+method.getName()+" Failed");
+            } catch (Exception e) {
+                System.out.println("[X] "+method.getName()+" Failed");
+                failed++;
+            }
+
         }
 
 

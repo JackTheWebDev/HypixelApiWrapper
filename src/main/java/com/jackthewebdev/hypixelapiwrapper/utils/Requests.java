@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Requests {
 
-    public String jsonRequest(String url) throws IOException {
+    public static String jsonRequest(String url) throws IOException {
         String response = "";
 
         URL requestUrl = new URL(url);

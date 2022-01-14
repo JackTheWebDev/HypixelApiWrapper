@@ -2,8 +2,10 @@ package com.jackthewebdev.hypixelapiwrapper;
 
 
 import com.jackthewebdev.hypixelapiwrapper.utils.Requests;
+import com.jackthewebdev.hypixelapiwrapper.utils.Result;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 
 public class HypixelApiWrapper {
 
@@ -14,24 +16,15 @@ public class HypixelApiWrapper {
         this.Token = token;
     }
 
-    public String apiKey() throws IOException {
-        String key = this.Token;
-
-        Requests request = new Requests();
-
-        return request.jsonRequest(this.Endpoint+"/key?key="+key);
-
+    public Result apiKey() throws IOException {
+        return new Result(new Requests().jsonRequest(this.Endpoint+"/key?key="+this.Token));
     }
 
     /*
         Other various functions
      */
-    public String getuuid(String username) throws IOException {
-
-        Requests request = new Requests();
-
-        return request.jsonRequest("https://api.mojang.com/users/profiles/minecraft/"+username);
-
+    public Result getUuid(String username) throws IOException {
+        return new Result(new Requests().jsonRequest(this.Endpoint+"/uuid?&key="+this.Token+"&name="+username));
     }
 
 
@@ -44,13 +37,8 @@ public class HypixelApiWrapper {
         @return String The json response from /player endpoint
 
      */
-    public String player(String uuid) throws IOException {
-        String key = this.Token;
-
-        Requests request = new Requests();
-
-        return request.jsonRequest(this.Endpoint+"/player?uuid="+uuid+"&key="+key);
-
+    public Result player(String uuid) throws IOException {
+        return new Result(new Requests().jsonRequest(this.Endpoint+"/player?uuid="+uuid+"&key="+this.Token));
     }
 
     /*
@@ -58,13 +46,8 @@ public class HypixelApiWrapper {
 
         @return String The json response from /friends endpoint
      */
-    public String friends(String uuid) throws IOException {
-        String key = this.Token;
-
-        Requests request = new Requests();
-
-        return request.jsonRequest(this.Endpoint+"/player?uuid="+uuid+"&key="+key);
-
+    public Result friends(String uuid) throws IOException {
+        return new Result(new Requests().jsonRequest(this.Endpoint+"/friends?uuid="+uuid+"&key="+this.Token));
     }
 
     /*
@@ -73,13 +56,12 @@ public class HypixelApiWrapper {
         @return String The json response from the /status endpoint
      */
 
-    public String status(String uuid) throws IOException {
+    public Result status(String uuid) throws IOException {
         String key = this.Token;
 
-        Requests request = new Requests();
-
-        return request.jsonRequest(this.Endpoint+"/status?uuid="+uuid+"&key="+key);
+        return new Result(new Requests().jsonRequest(this.Endpoint+"/status?uuid="+uuid+"&key="+key));
 
     }
+
 
 }
