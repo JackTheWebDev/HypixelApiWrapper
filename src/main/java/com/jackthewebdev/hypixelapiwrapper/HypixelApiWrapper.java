@@ -20,17 +20,12 @@ public class HypixelApiWrapper {
         return new Result(new Requests().jsonRequest(this.Endpoint+"/key?key="+this.Token));
     }
 
-    /*
-        Other various functions
-     */
     public Result getUuid(String username) throws IOException {
         return new Result(new Requests().jsonRequest(this.Endpoint+"/uuid?&key="+this.Token+"&name="+username));
     }
 
 
-    /*
-                        Hypixel API Endpoints
-     */
+
     /*
         @param uuid
 
