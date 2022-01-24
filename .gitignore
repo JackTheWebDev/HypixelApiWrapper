@@ -5,3 +5,5 @@ target
 json-io-4.12.0.jar
 /HypixelApiWrapper.iml
 HypixelApiWrapper.iml
+*.log
+/logs

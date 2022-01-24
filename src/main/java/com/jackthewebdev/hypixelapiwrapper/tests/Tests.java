@@ -4,6 +4,7 @@ package com.jackthewebdev.hypixelapiwrapper.tests;
 
 
 import com.jackthewebdev.hypixelapiwrapper.HypixelApiWrapper;
+import com.jackthewebdev.hypixelapiwrapper.utils.Logger;
 import com.jackthewebdev.hypixelapiwrapper.utils.Result;
 
 import java.io.IOException;
@@ -14,7 +15,12 @@ public class Tests {
 
 
     public static void main(String[] args) throws IOException, NoSuchMethodException {
-        System.out.println("Starting tests");
+
+        // get cwd
+        String cwd = System.getProperty("user.dir");
+        Logger logger = new Logger(cwd+"/logs");
+
+        logger.log("Starting tests",0);
 
         int failed = 0;
         int passed = 0;
@@ -39,24 +45,23 @@ public class Tests {
             try {
                 Result result =(Result) method.invoke(hypixel,uuid);
                 if(result.isSuccess()){
-                    System.out.println("[✓] "+method.getName()+" Passed");
+                    logger.log("[✓] "+method.getName()+" Passed",0);
                     passed ++;
                     continue;
                 }
                 failed ++;
-                System.out.println("[X] "+method.getName()+" Failed");
+                logger.log("[X] "+method.getName()+" Failed",3);
             } catch (Exception e) {
-                System.out.println("[X] "+method.getName()+" Failed");
+                logger.log("[X] "+method.getName()+" Failed",3);
                 failed++;
             }
 
         }
 
 
-
-        System.out.println("Tests Finished: ");
-        System.out.println(passed+" tests passed, "+failed+" tests failed.");
-
+        logger.log("Tests Finished: ",0);
+        logger.log(passed+" tests passed, "+failed+" tests failed.",0);
+        logger.close();
     }
 
 
