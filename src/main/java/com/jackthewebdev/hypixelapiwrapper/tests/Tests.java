@@ -40,7 +40,7 @@ public class Tests {
         playerTests.add(HypixelApiWrapper.class.getMethod("player", String.class));
         playerTests.add(HypixelApiWrapper.class.getMethod("friends", String.class));
         playerTests.add(HypixelApiWrapper.class.getMethod("status", String.class));
-
+        playerTests.add(HypixelApiWrapper.class.getMethod("apiKey"));
         for (Method method : playerTests) {
             try {
                 Result result =(Result) method.invoke(hypixel,uuid);
